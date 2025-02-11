@@ -1,9 +1,11 @@
-import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsMongoId, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class OrderDto {
-  @IsNumber()
-  productId: number;
+  @IsMongoId()
+  @IsNotEmpty()
+  productId: string;
 
   @IsNumber()
+  @IsNotEmpty()
   quantity: number;
 }
