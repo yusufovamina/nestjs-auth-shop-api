@@ -1,7 +1,7 @@
 import { Controller, Get, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse,ApiBody ,ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Cart')
 @Controller('cart')
@@ -10,13 +10,23 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 export class CartController {
   constructor(private cartService: CartService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Add product to cart' })
-  @ApiResponse({ status: 201, description: 'Product added to cart' })
-  @ApiResponse({ status: 400, description: 'Invalid product ID' })
-  addToCart(@Request() req, @Body('productId') productId: string) {
-    return this.cartService.addToCart(req.user.id, productId);
-  }
+
+@Post()
+@ApiOperation({ summary: 'Add product to cart' })
+@ApiResponse({ status: 201, description: 'Product added to cart' })
+@ApiResponse({ status: 400, description: 'Invalid product ID' })
+@ApiBody({
+  schema: {
+    type: 'object',
+    properties: {
+      productId: { type: 'string', example: '65b1234567c8d90123456789' },
+    },
+  },
+})
+addToCart(@Request() req, @Body('productId') productId: string) {
+  return this.cartService.addToCart(req.user.id, productId);
+}
+
 
   @Get()
   @ApiOperation({ summary: 'Get user cart' })

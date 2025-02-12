@@ -27,15 +27,17 @@ export class ShopController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Add a new product (Admin only)' })
-  @ApiResponse({ status: 201, description: 'Product created' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
-  async create(@Body() productDto: ProductDto) {
-    return this.shopService.create(productDto);
-  }
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin')
+@ApiBearerAuth()
+@ApiOperation({ summary: 'Add a new product (Admin only)' })
+@ApiResponse({ status: 201, description: 'Product created' })
+@ApiResponse({ status: 403, description: 'Forbidden' })
+async create(@Body() productDto: ProductDto) {
+  console.log('Received productDto:', productDto); // Лог входных данных
+  return this.shopService.create(productDto);
+}
+
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
