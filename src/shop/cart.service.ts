@@ -25,7 +25,6 @@ export class CartService {
     cart.products.push(product);
     return cart.save();
   }
-
   async getCart(userId: string): Promise<Cart | null> {
     const cart = await this.cartModel.findOne({ user: userId }).populate('products').exec();
     if (!cart) {
